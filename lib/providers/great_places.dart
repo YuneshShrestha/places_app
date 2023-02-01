@@ -4,7 +4,7 @@ import 'package:great_places_app/helper/db_helper.dart';
 import 'package:great_places_app/models/place.dart';
 
 class GreatPlaces with ChangeNotifier {
-  final List<Place> _items = [];
+  List<Place> _items = [];
   List<Place> get items {
     return [..._items];
   }
@@ -17,11 +17,30 @@ class GreatPlaces with ChangeNotifier {
       location: PlaceLocation(latitude: 0.0, longitude: 0.0),
     );
     _items.add(newPlace);
-    DBHelper.insert('places', {
+    DBHelper.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
       'image': newPlace.image,
     });
     notifyListeners();
+  }
+
+  Future<void> setData() async {
+    final fetchedData = await DBHelper.fetchData('user_places');
+    _items = fetchedData
+        .map(
+          (data) => Place(
+            id: data['id'].toString(),
+            title: data['title'].toString(),
+            location: PlaceLocation(
+              latitude: 0.0,
+              longitude: 0.0,
+            ),
+            image: File(
+              data['image'].toString(),
+            ),
+          ),
+        )
+        .toList();
   }
 }
