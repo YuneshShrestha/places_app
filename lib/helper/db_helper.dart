@@ -3,16 +3,15 @@ import 'package:path/path.dart' as path;
 
 class DBHelper {
   static Future<sql.Database> dataBase() async {
-    final dbPath = sql.getDatabasesPath().toString();
-    final sqlDB = await sql.openDatabase(
-      path.join(dbPath, 'user_places.db'),
+    final dbPath = await sql.getDatabasesPath();
+    return sql.openDatabase(
+      path.join(dbPath.toString(), 'places.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE user_places (id TEXT PRIMARY KEY, title TEXT, image TEXT)');
+            'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT)');
       },
       version: 1,
     );
-    return sqlDB;
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
