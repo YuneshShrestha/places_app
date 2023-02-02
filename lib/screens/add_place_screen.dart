@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:great_places_app/providers/great_places.dart';
-import 'package:great_places_app/widgets/image_input.dart';
+import '../providers/great_places.dart';
 import 'package:provider/provider.dart';
+import '../widgets/image_input.dart';
+import '../widgets/locataion_input.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = "/add-place-screen";
@@ -30,6 +31,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const sizedBox = SizedBox(
+      height: 8.0,
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add a New Place"),
@@ -48,12 +52,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       label: Text("Title"),
                     ),
                   ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
+                  sizedBox,
                   ImageInput(
                     onSelectImage: _selectImage,
                   ),
+                  sizedBox,
+                  const LocationInput(),
                 ],
               ),
             ),
@@ -71,7 +75,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               icon: const Icon(Icons.add),
               label: const Text("Add Place"),
             ),
-          )
+          ),
         ],
       ),
     );
